@@ -22,7 +22,7 @@ function Update-Profile {
     }
 
     try {
-        $url = "https://raw.githubusercontent.com/JoPil/.dotfiles/Powershell-Profile/main/Microsoft.PowerShell_profile.ps1"
+        $url = "https://raw.githubusercontent.com/JoPil/.dotfiles/main/PowerShell-Profile/Microsoft.PowerShell_profile.ps1"
         $oldhash = Get-FileHash $PROFILE
         Invoke-RestMethod $url -OutFile "$env:temp/Microsoft.PowerShell_profile.ps1"
         $newhash = Get-FileHash "$env:temp/Microsoft.PowerShell_profile.ps1"
@@ -242,7 +242,7 @@ function Update-ohMyPoshProfile {
     $ohMyPoshProfile = "$env:LocalAppData\oh-my-posh\themes\winter.omp.json"
     if (Test-Path($ohMyPoshProfile)) {
         try {
-            $url = "https://raw.githubusercontent.com/JoPil/.dotfiles/Powershell-Profile/main/winter.omp.json"
+            $url = "https://raw.githubusercontent.com/JoPil/.dotfiles/main/PowerShell-Profile/winter.omp.json"
             $oldhash = Get-FileHash $ohMyPoshProfile
             Invoke-RestMethod $url -OutFile "$env:temp/winter.omp.json"
             $newhash = Get-FileHash "$env:temp/winter.omp.json"
