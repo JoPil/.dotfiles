@@ -27,17 +27,17 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
         # Detect Version of PowerShell & Create Profile directories if they do not exist.
         $profilePath = ""
         if ($PSVersionTable.PSEdition -eq "Core") { 
-            $profilePath = "$env:userprofile\Documents\Powershell"
+            $profilePath = "$env:userprofile\OneDrive\Documents\Powershell"
         }
         elseif ($PSVersionTable.PSEdition -eq "Desktop") {
-            $profilePath = "$env:userprofile\Documents\WindowsPowerShell"
+            $profilePath = "$env:userprofile\OneDrive\Documents\WindowsPowerShell"
         }
 
         if (!(Test-Path -Path $profilePath)) {
             New-Item -Path $profilePath -ItemType "directory"
         }
 
-        Invoke-RestMethod https://github.com/JoPil/.dotfiles/Powershell-Profile/raw/main/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
+        Invoke-RestMethod https://raw.githubusercontent.com/JoPil/.dotfiles/main/PowerShell-Profile/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
         Write-Host "The profile @ [$PROFILE] has been created."
         Write-Host "If you want to add any persistent components, please do so at [$profilePath\Profile.ps1] as there is an updater in the installed profile which uses the hash to update the profile and will lead to loss of changes"
     }
@@ -48,7 +48,7 @@ if (!(Test-Path -Path $PROFILE -PathType Leaf)) {
 else {
     try {
         Get-Item -Path $PROFILE | Move-Item -Destination "oldprofile.ps1" -Force
-        Invoke-RestMethod https://github.com/JoPil/.dotfiles/Powershell-Profile/raw/main/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
+        Invoke-RestMethod https://raw.githubusercontent.com/JoPil/.dotfiles/main/PowerShell-Profile/Microsoft.PowerShell_profile.ps1 -OutFile $PROFILE
         Write-Host "The profile @ [$PROFILE] has been created and old profile removed."
         Write-Host "Please back up any persistent components of your old profile to [$HOME\Documents\PowerShell\Profile.ps1] as there is an updater in the installed profile which uses the hash to update the profile and will lead to loss of changes"
     }
@@ -97,7 +97,8 @@ catch {
 # Final check and message to the user
 if ((Test-Path -Path $PROFILE) -and (winget list --name "OhMyPosh" -e) -and ($fontFamilies -contains "CaskaydiaCove NF")) {
     Write-Host "Setup completed successfully. Please restart your PowerShell session to apply changes."
-} else {
+}
+else {
     Write-Warning "Setup completed with errors. Please check the error messages above."
 }
 
