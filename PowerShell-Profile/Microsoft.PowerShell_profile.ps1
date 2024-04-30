@@ -30,9 +30,11 @@ function Update-Profile {
             Copy-Item -Path "$env:temp/Microsoft.PowerShell_profile.ps1" -Destination $PROFILE -Force
             Write-Host "Profile has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
         }
-    } catch {
+    }
+    catch {
         Write-Error "Unable to check for `$profile updates"
-    } finally {
+    }
+    finally {
         Remove-Item "$env:temp/Microsoft.PowerShell_profile.ps1" -ErrorAction SilentlyContinue
     }
 }
@@ -59,10 +61,12 @@ function Update-PowerShell {
             Write-Host "Updating PowerShell..." -ForegroundColor Yellow
             winget upgrade "Microsoft.PowerShell" --accept-source-agreements --accept-package-agreements
             Write-Host "PowerShell has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
-        } else {
+        }
+        else {
             Write-Host "Your PowerShell is up to date." -ForegroundColor Green
         }
-    } catch {
+    }
+    catch {
         Write-Error "Failed to update PowerShell. Error: $_"
     }
 }
@@ -100,8 +104,9 @@ function Get-PubIP { (Invoke-WebRequest http://ifconfig.me/ip).Content }
 # System Utilities
 function uptime {
     if ($PSVersionTable.PSVersion.Major -eq 5) {
-        Get-WmiObject win32_operatingsystem | Select-Object @{Name='LastBootUpTime'; Expression={$_.ConverttoDateTime($_.lastbootuptime)}} | Format-Table -HideTableHeaders
-    } else {
+        Get-WmiObject win32_operatingsystem | Select-Object @{Name = 'LastBootUpTime'; Expression = { $_.ConverttoDateTime($_.lastbootuptime) } } | Format-Table -HideTableHeaders
+    }
+    else {
         net statistics workstation | Select-String "since" | ForEach-Object { $_.ToString().Replace('Statistics since ', '') }
     }
 }
@@ -145,13 +150,13 @@ function pgrep($name) {
 }
 
 function head {
-  param($Path, $n = 10)
-  Get-Content $Path -Head $n
+    param($Path, $n = 10)
+    Get-Content $Path -Head $n
 }
 
 function tail {
-  param($Path, $n = 10)
-  Get-Content $Path -Tail $n
+    param($Path, $n = 10)
+    Get-Content $Path -Tail $n
 }
 
 # Quick File Creation
@@ -211,29 +216,31 @@ function pst { Get-Clipboard }
 
 # Enhanced PowerShell Experience
 Set-PSReadLineOption -Colors @{
-    Command = 'Yellow'
+    Command   = 'Yellow'
     Parameter = 'Green'
-    String = 'DarkCyan'
+    String    = 'DarkCyan'
 }
 
 # Add zoxide
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
-} else {
+}
+else {
     Write-Host "zoxide command not found. Attempting to install via winget..."
     try {
         winget install -e --id ajeetdsouza.zoxide
         Write-Host "zoxide installed successfully. Initializing..."
         Invoke-Expression (& { (zoxide init powershell | Out-String) })
-    } catch {
+    }
+    catch {
         Write-Error "Failed to install zoxide. Error: $_"
     }
 }
 ## Final Line to set prompt
 # Check for oh-my-posh profile updates
 function Update-ohMyPoshProfile {
-    $ohMyPoshProfile = Test-Path -Path "$env:LocalAppData\oh-my-posh\themes\winter.omp.json"
-    if ($ohMyPoshProfile) {
+    $ohMyPoshProfile = "$env:LocalAppData\oh-my-posh\themes\winter.omp.json"
+    if (Test-Path($ohMyPoshProfile)) {
         try {
             $url = "https://raw.githubusercontent.com/JoPil/.dotfiles/Powershell-Profile/main/winter.omp.json"
             $oldhash = Get-FileHash $ohMyPoshProfile
@@ -243,15 +250,18 @@ function Update-ohMyPoshProfile {
                 Copy-Item -Path "$env:temp/winter.omp.json" -Destination $ohMyPoshProfile -Force
                 Write-Host "Oh my posh profile has been updated. Please restart your shell to reflect changes" -ForegroundColor Magenta
             }
-        } catch {
+        }
+        catch {
             Write-Error "Unable to check for oh my posh profile updates"
-        } finally {
+        }
+        finally {
             Remove-Item "$env:temp/winter.omp.json" -ErrorAction SilentlyContinue
             oh-my-posh init pwsh --config $ohMyPoshProfile | Invoke-Expression
         }
 
 
-    } else {
+    }
+    else {
         Write-Host "Oh my posh config file does not exist. Using the default specified"
         oh-my-posh init pwsh --config https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/cobalt2.omp.json | Invoke-Expression
     }
