@@ -89,7 +89,7 @@ function Test-CommandExists {
 }
 
 function Edit-Profile {
-    vim $PROFILE.CurrentUserAllHosts
+    nvim $PROFILE.CurrentUserCurrentHost
 }
 function touch($file) { "" | Out-File $file -Encoding ASCII }
 function ff($name) {
