@@ -125,11 +125,12 @@ try {
 catch {
     Write-Error "Failed to install zoxide. Error: $_"
 }
-# fzf Install
+# fzf Install and its Powershell module
 try {
     winget install --id=junegunn.fzf  -e
-    Write-Host "fzf installed successfully."
+    Install-Module -Name PSFzf
+    Write-Host "fzf and PSFzf installed successfully."
 }
 catch {
-    Write-Error "Failed to install fzf. Error: $_"
+    Write-Error "Failed to install fzf and PSFzf. Error: $_"
 }
