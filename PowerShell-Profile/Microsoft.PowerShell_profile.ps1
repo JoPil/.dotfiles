@@ -8,7 +8,9 @@ $canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -TimeoutSeconds
 if (-not (Get-Module -ListAvailable -Name Terminal-Icons)) {
     Install-Module -Name Terminal-Icons -Scope CurrentUser -Force -SkipPublisherCheck
 }
-Import-Module -Name Terminal-Icons
+
+Import-Module -Name PSFzf
+
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
     Import-Module "$ChocolateyProfile"
@@ -222,6 +224,12 @@ Set-PSReadLineOption -Colors @{
     Parameter = 'Green'
     String    = 'DarkCyan'
 }
+
+Set-PSReadLineOption -PredictionSource History
+Set-PSReadLineOption -PredictionViewStyle ListView
+Set-PSReadLineKeyHandler -Key Tab -Function Complete
+Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
+Set-PSReadLineKeyHandler -Key DownArrow -Function HistorySearchForward
 
 # Add zoxide
 if (Get-Command zoxide -ErrorAction SilentlyContinue) {
