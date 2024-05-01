@@ -172,6 +172,8 @@ function docs { Set-Location -Path $HOME\Documents }
 
 function dtop { Set-Location -Path $HOME\Desktop }
 
+function repos { Set-Location -Path $HOME\source\repos }
+
 # Quick Access to Editing the Profile
 function ep { nvim $PROFILE }
 
