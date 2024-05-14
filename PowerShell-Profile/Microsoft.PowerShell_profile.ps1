@@ -6,10 +6,13 @@ $canConnectToGitHub = Test-Connection github.com -Count 1 -Quiet -TimeoutSeconds
 # Import Modules and External Profiles
 # Ensure Terminal-Icons module is installed before importing
 if (-not (Get-Module -ListAvailable -Name Terminal-Icons)) {
-    Install-Module -Name Terminal-Icons -Scope CurrentUser -Force -SkipPublisherCheck
+    # Install-Module -Name Terminal-Icons -Scope CurrentUser -Force -SkipPublisherCheck
+    Import-Module Terminal-Icons
 }
 
-Import-Module -Name PSFzf
+if (-not (Get-Module -ListAvailable -Name PSFzf)) {
+    Import-Module -Name PSFzf
+}
 
 $ChocolateyProfile = "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 if (Test-Path($ChocolateyProfile)) {
