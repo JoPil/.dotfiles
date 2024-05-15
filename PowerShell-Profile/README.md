@@ -18,3 +18,6 @@ After running the script, you'll find a downloaded `cove.zip` file in the folder
 2. Locate and install the nerd fonts.
 
 Now, enjoy your enhanced and stylish PowerShell experience! 🚀
+
+### Tip
+Comment out Update-Profile and Update-PowerShell to save some loading time.
